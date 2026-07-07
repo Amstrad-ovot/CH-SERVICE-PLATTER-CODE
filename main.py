@@ -66,7 +66,7 @@ def func1(raw_file):
         data = pd.read_excel(raw_file)
         data.columns = data.columns.str.lower().str.replace(" ","_").str.replace(".", "_").str.strip()
         
-        selected_columns = ["service_id","customer_name","company_name","circle", "customer_type", "call_date", "status_updated_date", "status_code","phone1","provider_phone1"]
+        selected_columns = ["service_id","customer_name","company_name","circle", "customer_type", "model_code","call_date", "status_updated_date", "status_code","phone1","provider_phone1"]
         data = data[selected_columns].copy()
         
         # Vectorized DateTime handling
@@ -312,7 +312,7 @@ def fetch_and_format_report(uploaded_file):
                 apply_formatting(writer.book, writer.sheets[sheet_name], status_summary_df, "Statuswise Platter And Targets")
 
             # --- Sheet 3: Detailed Raw Data ---
-            raw_df = final_df[["circle","status_code","service_id", "customer_name","phone1","company_name","provider_phone1","category"]].copy()
+            raw_df = final_df[["circle","status_code","service_id", "model_code","customer_name","phone1","company_name","provider_phone1","category"]].copy()
             raw_df = raw_df[raw_df["category"].isin(["Red Call", "Encroaching1", "Encroaching2", "Encroaching3"])].copy()
             raw_df["category"] = pd.Categorical(
                 raw_df["category"],
