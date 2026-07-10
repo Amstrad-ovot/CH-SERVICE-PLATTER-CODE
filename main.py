@@ -364,7 +364,7 @@ def fetch_and_format_report(uploaded_file):
                 sheet_name = "Daily Circlewise Platter"
                 circle_summary_df.iloc[:, 1:] = circle_summary_df.iloc[:, 1:].apply(pd.to_numeric, errors='coerce').fillna(0).astype(int)
                 circle_summary_df.to_excel(writer, sheet_name=sheet_name, index=False, startrow=1)
-                apply_formatting(writer.book, writer.sheets[sheet_name], circle_summary_df, "All Circlewise Platter And Targets")
+                apply_formatting(writer.book, writer.sheets[sheet_name], circle_summary_df, "All ASP-wise Platter And Targets")
 
             # --- Sheet 2: Statuswise Platter ---
             if not status_summary_df.empty:
