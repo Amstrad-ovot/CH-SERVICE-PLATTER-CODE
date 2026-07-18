@@ -3,7 +3,6 @@ import pandas as pd
 import io
 import pytz
 from datetime import datetime
-
 from main import fetch_and_format_report, func1
 from src.sidebar import render_sidebar
 
