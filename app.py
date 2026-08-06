@@ -4,7 +4,7 @@ import io
 import pytz
 from datetime import datetime
 
-from main import fetch_and_format_report, func1, upload_norms_data
+from main import (fetch_and_format_report, func1, upload_norms_data)
 from src.sidebar import render_sidebar
 
 # Must be the very first Streamlit command
@@ -107,7 +107,6 @@ if page == "upload":
         st.session_state["last_file_name"] = None
         
     st.divider()
-
 
 
 
