@@ -351,7 +351,7 @@ def callAgewise_platter(raw_file):
 
         # 5. Calculate Column Totals & Append the Summary Total Row
         totals = report.select_dtypes(include='number').sum()
-        total_row = pd.DataFrame([{'circle': 'Total', **totals.to_dict()}])
+        total_row = pd.DataFrame([{'circle': 'Grand Total', **totals.to_dict()}])
         
 
         # Combine data with the summary row
@@ -600,7 +600,8 @@ def apply_formatting(workbook, worksheet, summary, title_text):
             
             # Check if this row is the summary total marker row
             status_value = str(summary.iloc[df_row_idx, 0]).upper()
-            is_total = "TOTAL" in status_value
+            # is_total = "TOTAL" in status_value
+            is_total = "GRAND TOTAL" in status_value
 
             for col_num in range(num_cols):
                 value = summary.iloc[df_row_idx, col_num]
@@ -682,6 +683,7 @@ def fetch_and_format_report(uploaded_file):
     except Exception as e:
         print(f"Error in fetch_and_format_report: {e}")
         return None
+
 
 
 
