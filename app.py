@@ -6,7 +6,6 @@ from datetime import datetime
 from main import (fetch_and_format_report, func1, upload_norms_data)
 from src.sidebar import render_sidebar
 
-
 # Must be the very first Streamlit command
 st.set_page_config(page_title="CH Service Report Generator", layout="wide")
 
