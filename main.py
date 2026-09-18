@@ -588,7 +588,7 @@ def fetch_and_format_report(uploaded_file):
                 apply_formatting(writer.book, writer.sheets[sheet_name], cicle_callagewise_summ, "Circle CallAge-wise Platter")
 
             # --- Sheet 4: Detailed Raw Data ---
-            raw_df = final_df[["circle","status_code","service_id", "model_code","customer_name","phone1","company_name","provider_phone1","category"]].copy()
+            raw_df = final_df[["circle","status_code","service_id", "model_code","customer_name","phone1","company_name","provider_phone1","age_reg_days", "age_update_days","category"]].copy()
             raw_df = raw_df[raw_df["category"].isin(["Red Call", "Encroaching1", "Encroaching2", "Encroaching3"])].copy()
             raw_df["category"] = pd.Categorical(
                 raw_df["category"],
