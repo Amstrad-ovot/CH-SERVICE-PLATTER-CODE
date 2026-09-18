@@ -239,6 +239,7 @@ def func1(raw_file):
         data["age_reg_days"] = (todayDate - data["call_date"]).dt.days
         data["age_update_days"] = (todayDate - data["status_updated_date"]).dt.days
 
+
         # # 1. Fetch holidays from Google Sheets
         # try:
         #     holiday_worksheet = spreadsheet.worksheet("Holiday_List")
@@ -680,7 +681,6 @@ def fetch_and_format_report(uploaded_file):
             raw_df.to_excel(writer, sheet_name="Raw_Data", index=False)
 
         return output.getvalue()
-        
     except Exception as e:
         print(f"Error in fetch_and_format_report: {e}")
         return None
