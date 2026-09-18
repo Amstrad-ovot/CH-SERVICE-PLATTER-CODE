@@ -194,7 +194,7 @@ def main_func(raw_file):
         # Vectorized age calculations (in days)
         data["age_reg_days"] = (todayDate - data["call_date"]).dt.days
         data["age_update_days"] = (todayDate - data["status_updated_date"]).dt.days
-
+        data.to_excel("Ageing.xlsx", index= False)
         show_popup("main data is ready..",type= "success")
         return data
     except Exception as e:
@@ -238,7 +238,6 @@ def func1(raw_file):
         # Vectorized age calculations (in days)
         data["age_reg_days"] = (todayDate - data["call_date"]).dt.days
         data["age_update_days"] = (todayDate - data["status_updated_date"]).dt.days
-
 
         # # 1. Fetch holidays from Google Sheets
         # try:
@@ -389,26 +388,6 @@ def circlewise_platter(merged_data):
         # Assemble summary components array
         append_list = [summary]
 
-        # # Non-TBR summary block
-        # total_excl = summary[["Red Call", "Encroaching1", "Platter1", "Encroaching2", "Platter2", "Encroaching3", "Platter3"]].sum()
-        # total_excl_df = pd.DataFrame([total_excl])
-        # total_excl_df["ASP"] = "Total (Excl TBR)"
-        # append_list.append(total_excl_df[col_order])
-
-        # # TBR summary block
-        # tbr_data = merged_data[merged_data["status_code"] == "TO_BE_REJECTED"]
-        # if not tbr_data.empty:
-        #     tbr_sum = tbr_data[["red_call_flag", "enc1_flag", "enc2_flag", "enc3_flag"]].sum()
-        #     tbr_row = pd.DataFrame([{
-        #         "Circle": "TO_BE_REJECTED",
-        #         "Red Call": tbr_sum["red_call_flag"], "Encroaching1": tbr_sum["enc1_flag"],
-        #         "Encroaching2": tbr_sum["enc2_flag"], "Encroaching3": tbr_sum["enc3_flag"]
-        #     }])
-        #     tbr_row["Platter1"] = tbr_row["Red Call"] + tbr_row["Encroaching1"]
-        #     tbr_row["Platter2"] = tbr_row["Platter1"] + tbr_row["Encroaching2"]
-        #     tbr_row["Platter3"] = tbr_row["Platter2"] + tbr_row["Encroaching3"]
-        #     append_list.append(tbr_row[col_order])
-
         # Grand Total calculation block
         gt_sum = merged_data[["red_call_flag", "enc1_flag", "enc2_flag", "enc3_flag"]].sum()
         gt_row = pd.DataFrame([{
@@ -425,67 +404,6 @@ def circlewise_platter(merged_data):
     except Exception as e:
         print(f"Error in circlewise platter function: {e}")
         return pd.DataFrame()
-
-# def circlewise_platter(merged_data):
-#     try:
-#         if merged_data.empty: return pd.DataFrame()
-
-#         merged_data1 = merged_data[merged_data["status_code"] != "TO_BE_REJECTED"]
-        
-#         # Fast vectorized aggregation group
-#         summary = merged_data1.groupby("circle", as_index=False)[["red_call_flag", "enc1_flag", "enc2_flag", "enc3_flag"]].sum()
-#         summary = summary.rename(columns={
-#             "circle": "Circle", "red_call_flag": "Red Call",
-#             "enc1_flag": "Encroaching1", "enc2_flag": "Encroaching2", "enc3_flag": "Encroaching3"
-#         })
-
-#         summary["Platter1"] = summary["Red Call"] + summary["Encroaching1"]
-#         summary["Platter2"] = summary["Platter1"] + summary["Encroaching2"]
-#         summary["Platter3"] = summary["Platter2"] + summary["Encroaching3"]
-
-#         col_order = ["Circle", "Red Call", "Encroaching1", "Platter1", "Encroaching2", "Platter2", "Encroaching3", "Platter3"]
-#         summary = summary[col_order].sort_values("Platter1", ascending=False).reset_index(drop=True)
-
-#         # Assemble summary components array
-#         append_list = [summary]
-
-#         # Non-TBR summary block
-#         total_excl = summary[["Red Call", "Encroaching1", "Platter1", "Encroaching2", "Platter2", "Encroaching3", "Platter3"]].sum()
-#         total_excl_df = pd.DataFrame([total_excl])
-#         total_excl_df["Circle"] = "Total (Excl TBR)"
-#         append_list.append(total_excl_df[col_order])
-
-#         # TBR summary block
-#         tbr_data = merged_data[merged_data["status_code"] == "TO_BE_REJECTED"]
-#         if not tbr_data.empty:
-#             tbr_sum = tbr_data[["red_call_flag", "enc1_flag", "enc2_flag", "enc3_flag"]].sum()
-#             tbr_row = pd.DataFrame([{
-#                 "Circle": "TO_BE_REJECTED",
-#                 "Red Call": tbr_sum["red_call_flag"], "Encroaching1": tbr_sum["enc1_flag"],
-#                 "Encroaching2": tbr_sum["enc2_flag"], "Encroaching3": tbr_sum["enc3_flag"]
-#             }])
-#             tbr_row["Platter1"] = tbr_row["Red Call"] + tbr_row["Encroaching1"]
-#             tbr_row["Platter2"] = tbr_row["Platter1"] + tbr_row["Encroaching2"]
-#             tbr_row["Platter3"] = tbr_row["Platter2"] + tbr_row["Encroaching3"]
-#             append_list.append(tbr_row[col_order])
-
-#         # Grand Total calculation block
-#         gt_sum = merged_data[["red_call_flag", "enc1_flag", "enc2_flag", "enc3_flag"]].sum()
-#         gt_row = pd.DataFrame([{
-#             "Circle": "Grand Total",
-#             "Red Call": gt_sum["red_call_flag"], "Encroaching1": gt_sum["enc1_flag"],
-#             "Encroaching2": gt_sum["enc2_flag"], "Encroaching3": gt_sum["enc3_flag"]
-#         }])
-#         gt_row["Platter1"] = gt_row["Red Call"] + gt_row["Encroaching1"]
-#         gt_row["Platter2"] = gt_row["Platter1"] + gt_row["Encroaching2"]
-#         gt_row["Platter3"] = gt_row["Platter2"] + gt_row["Encroaching3"]
-#         append_list.append(gt_row[col_order])
-
-#         return pd.concat(append_list, ignore_index=True)
-#     except Exception as e:
-#         print(f"Error in circlewise platter function: {e}")
-#         return pd.DataFrame()
-
 
 def statuswise_platter(merged_data):
     try:
