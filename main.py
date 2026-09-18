@@ -680,6 +680,7 @@ def fetch_and_format_report(uploaded_file):
             raw_df.to_excel(writer, sheet_name="Raw_Data", index=False)
 
         return output.getvalue()
+        
     except Exception as e:
         print(f"Error in fetch_and_format_report: {e}")
         return None
